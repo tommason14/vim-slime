@@ -283,7 +283,7 @@ function! s:WritePasteFile(text)
   " could check exists("*writefile")
   call system("cat > " . g:slime_paste_file, a:text)
   " automatically show plots in python with matplotlib.pyplot loaded as plt
-  if stridx(a:text, "plt") != -1:
+  if stridx(a:text, "plt") != -1
     call system("cat >> " . g:slime_paste_file, "plt.show()\n")
   end
 endfunction
