@@ -25,7 +25,8 @@ function! s:ScreenSend(config, text)
         \ " -X eval \"readreg p " . g:slime_paste_file . "\"")
   call system("screen -S " . shellescape(a:config["sessionname"]) . " -p " . shellescape(a:config["windowname"]) .
         \ " -X paste p")
-  call system('screen -X colon ""')
+  call system('screen -X colon "
+"')
 endfunction
 
 function! s:ScreenSessionNames(A,L,P)
@@ -281,6 +282,10 @@ endfun
 function! s:WritePasteFile(text)
   " could check exists("*writefile")
   call system("cat > " . g:slime_paste_file, a:text)
+  " automatically show plots in python with matplotlib.pyplot loaded as plt
+  if stridx(a:text, "plt") != -1:
+    call system("cat >> " . g:slime_paste_file, "plt.show()\n")
+  end
 endfunction
 
 function! s:_EscapeText(text)
